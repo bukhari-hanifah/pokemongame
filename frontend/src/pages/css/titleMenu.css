@@ -1,0 +1,293 @@
+:root {  
+  --fade_black: linear-gradient(180deg, transparent 0%, #000000 100%);
+  --fade_blackbottom: linear-gradient(0deg, transparent 0%, #15141a 100%);
+  --fade_white: linear-gradient(180deg, transparent 0%, #ffffff 100%);
+  font-size: 16px;
+  font-family: "Raleway";
+  --heading-color: hsl(0, 0%, 87%);
+  --pricing-font-weight: 800;
+  --title-font-weight: 800;
+  --date-font-weight: 550;
+
+  /* Cards colors */
+  --card-main-color : rgb(0, 0, 0);
+  --cardGray: rgb(124,127,106);
+  --cardRed: rgb(178,34,18);
+  --cardBlack: rgb(21,20,26);
+  --cardCream: rgb(249,237,185);
+  --cardBlue: rgb(53,60,167);
+  --cardCyan: rgb(150,184,214);
+  --cardPurple: rgb(115,63,161);
+}
+
+.container input{
+  display: none;
+}
+
+.container{
+  max-width: 100em;
+  /* background-color: lightgreen; */
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+/* TITLE SCREEN / TITLE MENU */
+.bgContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+.bg_gif {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+.dimOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 0;
+}
+
+.pageTitle {
+  text-align: center;
+  z-index: 10;
+}
+
+.startTitle {
+  font-family: url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+  font-size: 5rem;
+  text-align: center;
+  color: white;
+  background-color: var(--fade_black);
+  filter: drop-shadow(0 8px 16px rgb(0, 0, 0));
+  z-index: 20;
+}
+
+.startBtn, .selectBtn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding-bottom: 15px;
+  background: var(--fade_black);
+  width: 100vw;
+  border: none;
+  font-size: 3rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 30;
+}
+
+.startBtn:hover, .selectBtn:hover {
+  background: none;
+}
+
+.startBtn:active {
+  background: var(--fade_white);
+  filter: transform( scale(0.98));
+}
+
+/* SELECT STARTER POKEMON */
+
+.starterHead {
+  padding-bottom: .8em;
+  font-size: 2.2rem;
+  letter-spacing: 2px; 
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.pkmnCards {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-content: flex-start;
+  box-sizing: border-box;
+}
+
+.card-div{
+  width: 18em;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  background-color: var(--cardBlack);
+  margin: 1em;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card-div:hover{
+  transform: translate(0, -10px);
+}
+.card-div:hover .img-div{
+  background-color: transparent;
+}
+.card-div:hover .img-div img{
+  transform: translateY(7.5%) scale(1.2);
+  filter: drop-shadow(0 8px 16px rgb(90, 90, 90));
+}
+
+.card-div:hover .text-container{
+  background: var(--fade_blackbottom);
+  z-index: 9;
+}
+
+.selected {
+  transform: translate(0, -10px);
+  border: 1px solid var(--cardCream);
+  box-shadow: 0 8px 16px var(--cardCream);
+}
+
+.selected .img-div{
+  background-color: transparent;
+}
+.selected .img-div img{
+  transform: translateY(7.5%) scale(1.2);
+  filter: drop-shadow(0 8px 16px rgb(90, 90, 90));
+}
+
+.selected .text-container{
+  background: var(--fade_blackbottom);
+  z-index: 9;
+}
+
+.img-div{
+  width: 100%;
+  height: 9em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cardCream);
+  border-radius: 10px;
+  padding: 2rem 0;
+  z-index: 1;
+}
+
+.img-div img{
+  width: 50%;
+  transform-origin: bottom;
+  transform: translateY(7.5%);
+  transition: transform 0.3s ease-in-out
+}
+
+.text-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--cardCream);
+  padding: 0 2.5em;
+  padding-top: 2rem;
+  padding-bottom: 1em;
+  border-radius: 0 0 10px 10px;
+  box-sizing: border-box;
+}
+
+.text-container .pkmnName {
+  margin: 0.25em 0;
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 1em;
+  font-size: 1.2em;
+  font-weight: 800;
+  letter-spacing: 2px;
+  width: 100%;
+  color: var(--heading-color);
+  z-index: 100;
+}
+
+.pkmnInfos{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+/* SELECT RIVAL POKEMON */
+
+
+/* FIGHT */
+.yesP {
+  color: white;
+}
+.lifebox {
+  position: relative;
+  width: 50%;
+}
+.lifebox p {  
+  line-height: 10px !important;
+}
+.player {
+  position: absolute;
+  bottom: 34px;
+  right: 0;
+  width: 60vw;
+  height: 150px;
+  padding: 10px;
+  border: 1px solid var(--cardBlue);
+}
+
+.pkmnImg1 {
+
+}
+
+.pkmnImg1 img {
+  position: fixed;
+  bottom: 50px;
+  width: 20%;
+  transform: translateY(7.5%);
+}
+.moveBox {
+  display: flex;
+}
+
+.moveBox button{
+  margin: 10px;
+  padding: 5px 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.settings {
+  text-align: center;
+  position: fixed;
+  width: 100vw;
+  bottom: 0;
+  margin: auto;
+  padding: 5px;
+  background: var(--fade_blackbottom);
+  color: white;
+}
+.settings button {
+  color: white;
+  font-size: medium;
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.settings button:hover {
+  font-weight: 700;
+}
+
