@@ -1,9 +1,22 @@
 import mongoose from 'mongoose';
-import { StarterPkmns } from './addmongo';
+import { StarterPkmns} from './addmongo';
 
-export async function storePkmn(epics: string[], PkmnModel: mongoose.Model<any>) {
+export async function storePkmn(PkmnModel: mongoose.Model<any>) {
+  const pokeApi = process.env.pokeApi || 'https://pokeapi.co/api/v2/';
   try {
-    const count = await mongoose.model('pokemon', StarterPkmns).countDocuments();
+    const responses = await Promise.all(
+    Array.from({ length: 1025 }, (_, index) =>
+      fetch(`${pokeApi}/pokemon-species/${index + 1}`)
+    ));
+
+  const speciesData = await Promise.all(responses.map(response => response.json()));
+  const result = speciesData.map(species => ({
+    name: species.name,
+    capture_rate: species.capture_rate
+  }));
+  const epics = result.filter(species => species.capture_rate === 3).map(species => species.name);
+
+    const count = await mongoose.model('pkmnLegend', StarterPkmns).countDocuments();
     if (count === null || count === 0) {
       console.log("MongoDB is empty. New Pokémon will be added.");
 
@@ -18,13 +31,13 @@ export async function storePkmn(epics: string[], PkmnModel: mongoose.Model<any>)
 
           await PkmnModel.create({
             name: pkmnData.name,
-            front_default: pkmnData.sprites?.front_default,
-            back_default: pkmnData.sprites?.back_default,
-            dream_front: pkmnData.sprites?.other?.dream_world?.front_default || null,
-            showdown_front: pkmnData.sprites?.other?.showdown?.front_default || null,
-            showdown_back: pkmnData.sprites?.other?.showdown?.back_default || null,
+            dream_front: pkmnData.sprites?.other?.dream_world?.front_default,
+            showdown_front: pkmnData.sprites?.other?.showdown?.front_default,
+            showdown_back: pkmnData.sprites?.other?.showdown?.back_default,
             hp: pkmnData.stats?.[0]?.base_stat || 0,
-            attack: pkmnData.stats?.[1]?.base_stat || 0
+            attack: pkmnData.stats?.[1]?.base_stat || 0,
+            defense: pkmnData.stats?.[2]?.base_stat || 0,
+            cry: pkmnData.cries?.latest || pkmnData.cries?.legacy
           });
           console.log("1 Pokémon stored successfully.");
         } 

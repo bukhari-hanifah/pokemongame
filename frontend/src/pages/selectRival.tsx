@@ -8,6 +8,7 @@ import Bg4 from "./selection/StarterBg4.png"
 import Bg5 from "./selection/StarterBg5.png"
 import Bg6 from "./selection/StarterBg6.png"
 import { useNavigate } from "react-router-dom";
+import "./components/titleMenu.css"
 
 //pokeapi.co/api/v2/location-area/168/pokemon_encounters.version_details[0].encounter_details[0]
 interface RivalProps {
@@ -38,9 +39,9 @@ const backgrounds = [ Bg1, Bg2, Bg3, Bg4, Bg5, Bg6 ];
       <div className="dimOverlay"></div>
       <div className="bgContainer"><img src={background} className="bg_gif"/></div>
       <div className="pages">
-        <h1 className="startTitle">Find Rival Pokemon for {selectedPkmn}</h1>
+        <h1 className="startTitle">Find Opponent Pokemon for <span>{selectedPkmn}</span></h1>
         <div className="btnContainer">
-          <button className="startBtn" onClick={getRandom}>Find and Fight</button>
+          <button className="startBtn fightBtn" onClick={getRandom}>Find and Fight</button>
           </div>
       </div>
     </div>

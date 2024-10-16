@@ -1,9 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAudioPlayer } from "react-use-audio-player";
 import selectBg from "./selection/StarterBg.png"
 import { StarterPkmns } from "../interfaces/PokemonList";
 import { useNavigate } from "react-router-dom";
+import "./components/titleMenu.css"
 
 interface SelectPokemonProps {
   setSelectedPkmn: (pkmn: string | null) => void;
@@ -17,6 +19,7 @@ const SelectPokemon: React.FC<SelectPokemonProps> = ({setSelectedPkmn}) =>  {
   const [pkmn3, setPkmn3] = useState<StarterPkmns | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
 
+  const { load, playing, stop } = useAudioPlayer();
   useEffect(()=> {
     getPkmns();
   }, [])
@@ -28,8 +31,16 @@ const SelectPokemon: React.FC<SelectPokemonProps> = ({setSelectedPkmn}) =>  {
     setPkmn3(response.data.random3);
   }
 
-  const handleCardClick = (name: string) => {
+  const handleCardClick = (name: string, cry: string) => {
+    console.log(cry)
     setSelected(selected === name ? null : name);
+    if (selected) {
+      load(cry, { autoplay: true });
+      return;
+    }
+    if (playing) {
+      stop();
+    }
   };
 
   const handleNextClick = () => {
@@ -45,34 +56,31 @@ const SelectPokemon: React.FC<SelectPokemonProps> = ({setSelectedPkmn}) =>  {
         <h1 className="starterHead">Legendary Pokemon Battle</h1>
         <div className="pkmnCards">
 
-          <div className={`card-div ${selected === pkmn1?.name ? "selected" : ""}`} onClick={() => handleCardClick(pkmn1?.name!)}>
+          <div className={`card-div ${selected === pkmn1?.name ? "selected" : ""}`} onClick={() => handleCardClick(pkmn1?.name!, pkmn1?.cry!)}>
+            <h2 className="pkmnName">{pkmn1?.name}</h2>
             <div className="img-div"><img src={pkmn1?.showdown_front} alt="Option 1 Pokemon"/></div>
-            <div className="text-container">
-              <h2 className="pkmnName">{pkmn1?.name}</h2>
-              <div className="pkmnInfos">
-                <p className="pkmnData1">HP: {pkmn1?.hp}</p>
-                <p className="pkmnData2">Attack: {pkmn1?.attack}</p>
-              </div>
+            <div className="pkmnInfos">
+              <p className="pkmnData">HP: <span>{pkmn1?.hp}</span></p>
+              <p className="pkmnData">Attack: <span>{pkmn1?.attack}</span></p>
+              <p className="pkmnData">Defense: <span>{pkmn1?.defense}</span></p>
             </div>
           </div>
-          <div className={`card-div ${selected === pkmn2?.name ? "selected" : ""}`} onClick={() => handleCardClick(pkmn2?.name!)}>
+          <div className={`card-div ${selected === pkmn2?.name ? "selected" : ""}`} onClick={() => handleCardClick(pkmn2?.name!, pkmn2?.cry!)}>
+            <h2 className="pkmnName">{pkmn2?.name}</h2>
             <div className="img-div"> <img src={pkmn2?.showdown_front} alt="Option 2 Pokemon" /> </div>
-            <div className="text-container">
-              <h2 className="pkmnName">{pkmn2?.name}</h2>
-              <div className="pkmnInfos">
-                <p className="pkmnData1">HP: {pkmn2?.hp}</p>
-                <p className="pkmnData2">Attack: {pkmn2?.attack}</p>
-              </div>
+            <div className="pkmnInfos">
+              <p className="pkmnData">HP: <span>{pkmn2?.hp}</span></p>
+              <p className="pkmnData">Attack: <span>{pkmn2?.attack}</span></p>
+              <p className="pkmnData">Defense: <span>{pkmn2?.defense}</span></p>
             </div>
           </div>
-          <div className={`card-div ${selected === pkmn3?.name ? "selected" : ""}`} onClick={() => handleCardClick(pkmn3?.name!)}>
+          <div className={`card-div ${selected === pkmn3?.name ? "selected" : ""}`} onClick={() => handleCardClick(pkmn3?.name!, pkmn3?.cry!)}>
+            <h2 className="pkmnName">{pkmn3?.name}</h2>
             <div className="img-div"> <img src={pkmn3?.showdown_front} alt="Option 3 Pokemon"/> </div>
-            <div className="text-container">
-              <h2 className="pkmnName">{pkmn3?.name}</h2>
-              <div className="pkmnInfos">
-                <p className="pkmnData1">HP: {pkmn3?.hp}</p>
-                <p className="pkmnData2">Attack: {pkmn3?.attack}</p>
-              </div>
+            <div className="pkmnInfos">
+              <p className="pkmnData">HP: <span>{pkmn3?.hp}</span></p>
+              <p className="pkmnData">Attack: <span>{pkmn3?.attack}</span></p>
+              <p className="pkmnData">Defense: <span>{pkmn3?.defense}</span></p>
             </div>
           </div>
 

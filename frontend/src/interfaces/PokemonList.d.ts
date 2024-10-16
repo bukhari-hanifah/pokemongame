@@ -19,11 +19,11 @@ export interface Result {
 
 export interface StarterPkmns{
   name: string,
-  front_default: string,
-  back_default: string,
   dream_front: string,
   showdown_front: string,
   showdown_back: string,
   hp: number,
-  attack: number  
+  attack: number,
+  defense: number,
+  cry: string
 }

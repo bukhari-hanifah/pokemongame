@@ -1,3 +1,9 @@
+export interface MoveDetails {
+  name: string
+  flavorText: string
+  damage: number
+}
+
 export interface Pokemon {
   abilities: Ability[]
   base_experience: number
